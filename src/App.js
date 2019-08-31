@@ -1,35 +1,32 @@
-import React from 'react';
-import usStates from './us-map-data.js';
+import React, { useState } from 'react';
+import USMap from './USMap';
 import './App.css';
 
 function App() {
-  const style = {fill:"#d3d3d3",stroke:"#ffffff",strokeOpacity:1,strokeWidth:0.75,strokeMiterlimit:4,strokeDasharray:"none"};
+  let [ correctFlag, setCorrectFlag ] = useState('');
+  var selectedId = null;
 
-  const unHighlightState = e => {
-    let target = e.target;
-    target.setAttribute("style", "fill: rgb(211, 211, 211)");
-    e.stopPropagation();
+  function setSelectedId(id) {
+    selectedId = id;
+    console.log('setSelectedId', id);
   }
-  
-  const highlightState = e => {
-    let currentTarget = e.currentTarget;
-    let target = e.target;
-    target.setAttribute("style", "fill: green");
-    console.log('highlightState', target.id);
-    e.stopPropagation();
+
+  const handleIdInput = e => {
+    let val = e.target.value;
+    console.log('input', val);
+    if (val === selectedId) {
+      setCorrectFlag(val);
+    }
   }
-  
+
   return (
     <div className="App">
-      <svg
-         onMouseOver={highlightState}
-         onMouseOut={unHighlightState}
-         xmlns="http://www.w3.org/2000/svg"
-         width="959"
-         height="593"
-         id="us-map">
-         {usStates.map(st => <path style={style} id={st.id} d={st.d} />)}
-      </svg>
+      <div style={{display: "flex", width: "800px"}}>
+        <USMap setid={setSelectedId} />
+        <div style={{width: "150px", backgroundColor: "gray"}}>
+          <input name="abbr" onBlur={handleIdInput} style={{width: "100px"}}/>
+        </div>
+      </div>
     </div>
   );
 }
