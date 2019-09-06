@@ -1,9 +1,12 @@
 import React from 'react';
 import usStates from './us-map-data.js';
+import { flags } from './USFlags';
 import './USMap.css';
 
 function USMap(props) {
-  const { setid } = props;
+  const { setid, width } = props;
+  const height = width * 5/8;
+  const flagCodes = usStates.map(s => s.id.toLowerCase());
 
   let stateNdx = Math.floor(Math.random() * usStates.length);
   let stateId = usStates[stateNdx].id;
@@ -23,7 +26,7 @@ function USMap(props) {
   }
   
   return (
-      <div style={{ width: "320px", height: "200px"}}>
+    <div style={{ width, height, backgroundColor: "#dfdfdf" }}>
       <svg
          onMouseOver={highlightState}
          onMouseOut={unHighlightState}
@@ -36,7 +39,12 @@ function USMap(props) {
             return <path key={st.id} className={classes} id={st.id} d={st.d} />
          })}
       </svg>
+      <div className="flags" style={{display:"flex", flexWrap: "wrap", width }}>
+        {flagCodes.map(st => {
+          return <img src={flags[st]} style={{flex: 1, width: "20%", height: "20%" }}/>
+        })}
       </div>
+    </div>
   );
 }
 
