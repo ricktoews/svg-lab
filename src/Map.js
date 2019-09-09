@@ -41,6 +41,10 @@ console.log('Map component');
 
   document.addEventListener('keypress', handleKeyUp);
 
+  function processCorrect(id) {
+    setCorrectFlag(id);
+  }
+
   function setSelectedId(id) {
     selectedId = id;
     console.log('setSelectedId', id);
@@ -50,7 +54,7 @@ console.log('Map component');
       <div style={{ width: "400px", display: "flex", flexDirection: "column" }}>
         <div style={{ backgroundColor: "#cacaca" }}>
         </div>
-        <USMap width="400" setid={setSelectedId} />
+        <USMap width="400" setid={setSelectedId} processCorrect={processCorrect} />
       </div>
   );
 }
